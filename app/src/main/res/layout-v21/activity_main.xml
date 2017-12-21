@@ -21,11 +21,31 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Set Alarm"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="30dp"
         android:onClick="setAlarm"
         android:layout_below="@+id/timeInput"
         android:layout_centerInParent="true"
         android:id="@+id/set"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cancel Alarm"
+        android:layout_marginTop="10dp"
+        android:onClick="cancelAlarm"
+        android:layout_below="@+id/set"
+        android:layout_centerInParent="true"
+        android:id="@+id/cancel"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Dank Alarm"
+        android:id="@+id/status"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/cancel"/>
 
 
 </RelativeLayout>

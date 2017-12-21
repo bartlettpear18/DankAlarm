@@ -1,21 +1,17 @@
 package com.bartlettpear18gmail.dankalarm;
 
 import android.app.AlarmManager;
-import android.app.Dialog;
 import android.app.PendingIntent;
-import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import java.util.Calendar;
-import java.util.Date;
 
-import android.os.SystemClock;
-import android.provider.AlarmClock;
-import android.support.v4.app.DialogFragment;
+import android.media.AudioManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.TimePicker;
 
 public class MainActivity extends AppCompatActivity {
@@ -24,14 +20,20 @@ public class MainActivity extends AppCompatActivity {
 
     private TimePicker timeInput;
     private AlarmManager alarmManager;
+    private PendingIntent pendingIntent;
+    private TextView status;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        status = (TextView) findViewById(R.id.status);
         timeInput = (TimePicker) findViewById(R.id.timeInput);
         alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+
+        Intent intent = new Intent(this, Alarm.class);
+        pendingIntent = PendingIntent.getActivity(this, 12345, intent, PendingIntent.FLAG_CANCEL_CURRENT);
     }
 
 
@@ -41,12 +43,29 @@ public class MainActivity extends AppCompatActivity {
             Calendar calendar = Calendar.getInstance();
             calendar.set(Calendar.HOUR_OF_DAY, timeInput.getHour());
             calendar.set(Calendar.MINUTE, timeInput.getMinute());
-//            calendar.add(Calendar.SECOND, 2);
 
-            Intent intent = new Intent(this, Alarm.class);
-            PendingIntent pendingIntent = PendingIntent.getActivity(this, 12345, intent, PendingIntent.FLAG_CANCEL_CURRENT);
             alarmManager.set(AlarmManager.RTC, calendar.getTimeInMillis(), pendingIntent);
+            status.setText("Alarm set for : " + calendar.getTime());
+
+            AudioManager audioManager = (AudioManager) this.getSystemService(Context.AUDIO_SERVICE);
+            audioManager.setRingerMode(AudioManager.RINGER_MODE_SILENT);
+
+
         }
+    }
+
+    public void cancelAlarm(View view) {
+        alarmManager.cancel(pendingIntent);
+        status.setText("Alarm canceled");
+
+        AudioManager audioManager = (AudioManager) this.getSystemService(Context.AUDIO_SERVICE);
+        audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
+
+        int maxVolume = audioManager.getStreamVolume(AudioManager.STREAM_RING);
+
+        audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
+        audioManager.setStreamVolume(AudioManager.STREAM_RING, maxVolume, AudioManager.FLAG_SHOW_UI + AudioManager.FLAG_PLAY_SOUND);
+
     }
 
 }
