@@ -14,7 +14,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:id="@+id/timeInput"/>
+        android:id="@+id/timeInput"
+        android:scrollIndicators="top" />
 
 
     <Button
@@ -36,16 +37,5 @@
         android:layout_below="@+id/set"
         android:layout_centerInParent="true"
         android:id="@+id/cancel"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Dank Alarm"
-        android:id="@+id/status"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/cancel"/>
-
 
 </RelativeLayout>

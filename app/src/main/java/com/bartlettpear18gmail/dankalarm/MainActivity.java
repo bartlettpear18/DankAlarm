@@ -1,6 +1,7 @@
 package com.bartlettpear18gmail.dankalarm;
 
 import android.app.AlarmManager;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private TimePicker timeInput;
     private AlarmManager alarmManager;
     private PendingIntent pendingIntent;
+    private AudioManager audioManager;
     private TextView status;
 
     @Override
@@ -31,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
         status = (TextView) findViewById(R.id.status);
         timeInput = (TimePicker) findViewById(R.id.timeInput);
         alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        audioManager = (AudioManager) this.getSystemService(Context.AUDIO_SERVICE);
+
 
         Intent intent = new Intent(this, Alarm.class);
         pendingIntent = PendingIntent.getActivity(this, 12345, intent, PendingIntent.FLAG_CANCEL_CURRENT);
@@ -47,8 +52,23 @@ public class MainActivity extends AppCompatActivity {
             alarmManager.set(AlarmManager.RTC, calendar.getTimeInMillis(), pendingIntent);
             status.setText("Alarm set for : " + calendar.getTime());
 
-            AudioManager audioManager = (AudioManager) this.getSystemService(Context.AUDIO_SERVICE);
-            audioManager.setRingerMode(AudioManager.RINGER_MODE_SILENT);
+            NotificationManager n = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+            if(n.isNotificationPolicyAccessGranted()) {
+                audioManager = (AudioManager) getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
+                audioManager.setRingerMode(AudioManager.RINGER_MODE_SILENT);
+
+                Context context = getApplicationContext();
+                String text = "Alarm set for: " + calendar.getTime();
+                int duration = Toast.LENGTH_LONG;
+
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
+
+            }else{
+                // Ask the user to grant access
+                Intent intent = new Intent(android.provider.Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS);
+                startActivity(intent);
+            }
 
 
         }
@@ -58,13 +78,9 @@ public class MainActivity extends AppCompatActivity {
         alarmManager.cancel(pendingIntent);
         status.setText("Alarm canceled");
 
-        AudioManager audioManager = (AudioManager) this.getSystemService(Context.AUDIO_SERVICE);
+        int volume = audioManager.getStreamVolume(AudioManager.STREAM_RING);
         audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
-
-        int maxVolume = audioManager.getStreamVolume(AudioManager.STREAM_RING);
-
-        audioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
-        audioManager.setStreamVolume(AudioManager.STREAM_RING, maxVolume, AudioManager.FLAG_SHOW_UI + AudioManager.FLAG_PLAY_SOUND);
+        audioManager.setStreamVolume(AudioManager.STREAM_RING, volume, AudioManager.FLAG_SHOW_UI + AudioManager.FLAG_PLAY_SOUND);
 
     }
 
