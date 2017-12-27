@@ -9,4 +9,45 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.bartlettpear18gmail.dankalarm.Alarm">
 
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="wait a second"
+        android:id="@+id/problem"
+        android:layout_marginTop="23dp"
+        android:layout_below="@+id/title"
+        android:layout_alignRight="@+id/dismiss"
+        android:layout_alignEnd="@+id/dismiss" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/answerInput"
+        android:layout_marginTop="40dp"
+        android:layout_below="@+id/problem"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Check answer"
+        android:onClick="dismiss"
+        android:id="@+id/dismiss"
+        android:layout_marginTop="49dp"
+        android:layout_below="@+id/answerInput"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Solve this question"
+        android:id="@+id/title"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
 </RelativeLayout>

@@ -14,25 +14,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:id="@+id/timeInput"
-        android:scrollIndicators="top" />
+        android:id="@+id/timeInput"/>
 
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
         android:text="Set Alarm"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="25dp"
         android:onClick="setAlarm"
         android:layout_below="@+id/timeInput"
         android:layout_centerInParent="true"
         android:id="@+id/set"/>
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
         android:text="Cancel Alarm"
-        android:layout_marginTop="10dp"
         android:onClick="cancelAlarm"
         android:layout_below="@+id/set"
         android:layout_centerInParent="true"
